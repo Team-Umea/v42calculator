@@ -1,34 +1,55 @@
 //!Advanced
 const display = document.querySelector(".display");
-const button = document.getElementById("btn-1");
-
-const operators = document.querySelectorAll(".btn-operator");
-const numbers = document.querySelectorAll(".btn-numbers");
-
+const buttonsAdd = document.querySelectorAll(".btn-add");
 const equals = document.querySelector(".btn-equals");
+const del = document.querySelector(".btn-delete");
+const allClear = document.querySelector(".btn-allClear");
 
-operators.forEach((operator) => {
-  operator.addEventListener("click", function (e) {
-    addToScreen(operator.textContent);
+let pressed = false;
+
+buttonsAdd.forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    addToScreen(btn.textContent);
+    display.focus();
   });
 });
 
-numbers.forEach((number) => {
-  number.addEventListener("click", function (e) {
-    addToScreen(number.textContent);
-  });
+del.addEventListener("click", function (e) {
+  if (display.value.length > 0) {
+    deleteChar();
+  }
+});
+
+equals.addEventListener("click", function (e) {
+  solve(display.value);
+});
+
+allClear.addEventListener("click", function (e) {
+  ac();
+});
+
+document.addEventListener("keyup", function (e) {
+  if (e.code === "Enter") {
+    solve(display.value);
+  }
 });
 
 function addToScreen(input) {
   display.value += input;
 }
 
-function equals() {
-  let num1 = document.querySelector(".display").value;
-  let num2 = math.evaluate(num1);
-  display.value = num2;
+function solve(num) {
+  try {
+    display.value = math.evaluate(num);
+  } catch (error) {
+    display.value = error;
+  }
 }
 
 function ac() {
   display.value = "";
+}
+
+function deleteChar() {
+  display.value = display.value.slice(0, -1);
 }
