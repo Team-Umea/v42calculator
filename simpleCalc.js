@@ -13,8 +13,8 @@ let operatorPrompt = "Chose a operation to perform (+-*/%): ";
 
 let result;
 
-alert("This calculator works by accepting 2 numbers as integers or decimal numbers, use . not , for decimal numbers");
-console.log("This calculator works by accepting 2 numbers as integers or decimal numbers, use . not , for decimal numbers");
+alert("This calculator works by accepting 2 numbers as integers or decimal numbers and performs an operation of choice, use . not , for decimal numbers");
+console.log("This calculator works by accepting 2 numbers as integers or decimal numbers and performs an operation of choice, use . not , for decimal numbers");
 
 do {
   if (falsyInputNum1 > 0) {
