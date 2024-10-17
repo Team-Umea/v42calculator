@@ -47,12 +47,13 @@ body {
   width: 100%;
   font-size: 1.5em;
   grid-column: 1/5;
-  background-color: #ccc;
+  background-color: white;
   border: solid 2px black;
   border-radius:8px;
 }
 
 button {
+  background-color:white;
   height: 60px;
   font-size: 1.5em;
   border-radius:8px;
