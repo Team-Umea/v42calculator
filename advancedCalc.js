@@ -20,12 +20,14 @@ del.addEventListener("click", function (e) {
   }
 });
 
-equals.addEventListener("click", function (e) {
-  solve(display.value);
-});
-
 allClear.addEventListener("click", function (e) {
   ac();
+});
+
+
+/* Enter & Solve functions*/
+equals.addEventListener("click", function (e) {
+  solve(display.value);
 });
 
 document.addEventListener("keyup", function (e) {
@@ -39,10 +41,12 @@ function addToScreen(input) {
 }
 
 function solve(num) {
-  try {
-    display.value = math.evaluate(num);
-  } catch (error) {
-    display.value = error;
+  if(num !== ""){
+    try {
+      display.value = math.evaluate(num);
+    } catch (error) {
+      display.value = error;
+    }
   }
 }
 
