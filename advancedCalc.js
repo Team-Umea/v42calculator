@@ -6,7 +6,7 @@ const del = document.querySelector(".btn-delete");
 const allClear = document.querySelector(".btn-allClear");
 const calc = document.querySelector(".calculator");
 
-let pressed = false;
+const tokens = ["+","-","/","*",".","^"];
 
 function isNumeric(str){
   return /^\d+$/.test(str);
@@ -43,19 +43,18 @@ document.addEventListener("keyup", function (e) {
   }
 });
 
-const tokens = ["+","-","/","*","."];
-
-display.addEventListener("change", function(e) {
-  dynamicCheckInput();
+display.addEventListener("input", function(e) {
+  checkInput();
 });
 
-function dynamicCheckInput(){
-  const currentValue = display.value;
+function checkInput(){
+  let currentValue = display.value;
   const newChar = currentValue.slice(-1);
   const lastChar = currentValue.slice(-2, -1);
-  if (!(isNumeric(newChar) || (isNumeric(lastChar) && tokens.includes(newChar)))) {
-    console.log("Invalid input detected, removing last character.");
-    display.value = currentValue.slice(0, -1); // Remove last character
+
+  if ((!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))))||
+(lastChar==="("&&newChar===")")) {
+    display.value = currentValue.slice(0, -1); 
   }
 }
 
@@ -63,8 +62,10 @@ function dynamicCheckInput(){
 function addToScreen(input) {
   const newChar = input; 
   const lastChar = display.value.slice(-1);
-  if (isNumeric(newChar) || (isNumeric(lastChar) && tokens.includes(newChar))) {
-    display.value += newChar;
+  if ((!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar)))) {
+    if(!(lastChar==="("&&newChar==")")){
+      display.value += newChar;
+    }
   }
 }
 
