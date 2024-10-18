@@ -1,11 +1,10 @@
+// loop så man kan räkna flera tal 
 let kalkylator = true
-
-
 while(kalkylator) {
 const tal1 = Number(prompt("Välj första talet"))
-const tal2 = Number(prompt("Välj andra talet"))
 const operator = (prompt("Välj en operator(+,-,*,/,%)"))
-
+const tal2 = Number(prompt("Välj andra talet"))
+// kollar så att det är nummer samt en operator 
 if (isNaN(tal1)||isNaN(tal2)){
     console.log("skriv in ett nummer dumfan")
     alert("skriv in ett nummer dumfan")
@@ -13,7 +12,7 @@ if (isNaN(tal1)||isNaN(tal2)){
         console.log("Skriv in en giltig operator.");
         alert("Skriv in en giltig operator.");
      
-    
+// kollar vilken operator samt tal du gett och gör uträkningen    
 }else if (operator === "+"){
     console.log(tal1 + tal2)
     alert(tal1 +  tal2)
@@ -23,7 +22,7 @@ if (isNaN(tal1)||isNaN(tal2)){
 } else if (operator === "*"){
     console.log(tal1 * tal2)
     alert(tal1 *  tal2) 
-    
+    // säger att du inte kan dela med noll 
 } else if (operator === "/"){
     if (tal2 == 0) {
         alert("du kan icke dela med noll")
@@ -42,6 +41,7 @@ if (isNaN(tal1)||isNaN(tal2)){
         alert(tal1 %  tal2)
     }
 }
+// slutet på loopen 
 let användarinfo = prompt("vill du fortsätta uträkningen? ja/nej").toLowerCase();
 if (användarinfo !== "ja"){
     kalkylator=false;
