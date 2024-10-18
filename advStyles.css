@@ -26,22 +26,16 @@ body {
   width: fit-content;
 }
 
-.introduction {
-  padding:50px;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  letter-spacing: 3px;
-  line-height: 3em;
-  color:white;
-  text-align:left;
+header, footer {
+  padding: 25px;
 }
 
-.introduction h1 {
-  font-size: 2.6em;
+header img, footer img {
+  object-fit:cover;
+  width:100%;
 }
 
-.introduction h2 {
-  font-size: 2em;
-}
+
 
 .display {
   width: 100%;
