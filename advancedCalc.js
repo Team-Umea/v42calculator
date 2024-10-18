@@ -8,6 +8,10 @@ const calc = document.querySelector(".calculator");
 
 let pressed = false;
 
+function isNumeric(str){
+  return /^\d+$/.test(str);
+}
+
 buttonsAdd.forEach((btn) => {
   btn.addEventListener("click", function (e) {
     addToScreen(btn.textContent);
@@ -39,8 +43,29 @@ document.addEventListener("keyup", function (e) {
   }
 });
 
+const tokens = ["+","-","/","*","."];
+
+display.addEventListener("change", function(e) {
+  dynamicCheckInput();
+});
+
+function dynamicCheckInput(){
+  const currentValue = display.value;
+  const newChar = currentValue.slice(-1);
+  const lastChar = currentValue.slice(-2, -1);
+  if (!(isNumeric(newChar) || (isNumeric(lastChar) && tokens.includes(newChar)))) {
+    console.log("Invalid input detected, removing last character.");
+    display.value = currentValue.slice(0, -1); // Remove last character
+  }
+}
+
+
 function addToScreen(input) {
-  display.value += input;
+  const newChar = input; 
+  const lastChar = display.value.slice(-1);
+  if (isNumeric(newChar) || (isNumeric(lastChar) && tokens.includes(newChar))) {
+    display.value += newChar;
+  }
 }
 
 function solve(num) {
