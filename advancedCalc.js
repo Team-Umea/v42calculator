@@ -58,7 +58,6 @@ function checkInput(){
   }
 }
 
-
 function addToScreen(input) {
   const newChar = input; 
   const lastChar = display.value.slice(-1);
