@@ -35,6 +35,7 @@ equals.addEventListener("click", function (e) {
 document.addEventListener("keyup", function (e) {
   if (e.code === "Enter") {
     solve(display.value);
+    calc.classList.add("animate__rubberBand")
   }
 });
 
