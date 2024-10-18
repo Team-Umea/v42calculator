@@ -36,7 +36,7 @@ if (isNaN(tal1)||isNaN(tal2)){
 } else if(operator === "%"){
     if(tal2 ==0) {
         console.log("tal2 kan inte va noll")
-        alert("tal2 kan va noll")
+        alert("tal2 kan ej va noll")
     } else {
         console.log(tal1 %  tal2)
         alert(tal1 %  tal2)
