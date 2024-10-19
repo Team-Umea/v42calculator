@@ -93,13 +93,15 @@ function solve(num) {
   //     display.value = error;
   //   }
   // }
-  let solved = flatParentheses(num); 
-  do{
-    solved=extractParentheses(solved);
-  }while(solved.includes("("));
+  if(num!==""){
+    let solved = flatParentheses(num); 
+    do{
+      solved=extractParentheses(solved);
+    }while(solved.includes("("));
 
-  const finalCalcNoParentheses = cal(solved);
-  display.value = finalCalcNoParentheses;
+    const finalCalcNoParentheses = cal(solved);
+    display.value = finalCalcNoParentheses;
+  }
 }
 
 /*
