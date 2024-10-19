@@ -6,11 +6,10 @@ const del = document.querySelector(".btn-delete");
 const allClear = document.querySelector(".btn-allClear");
 const calc = document.querySelector(".calculator");
 
-const tokens = ["+","-","/","*",".","^"];
+// const tokens = ["+","-","/","*",".","^","%"];
 
-function isNumeric(str){
-  return /^\d+$/.test(str);
-}
+const tokens = ["^","*","","/","%","+","-","."];
+
 
 buttonsAdd.forEach((btn) => {
   btn.addEventListener("click", function (e) {
@@ -69,13 +68,115 @@ function addToScreen(input) {
 }
 
 function solve(num) {
-  if(num !== ""){
-    try {
-      display.value = math.evaluate(num);
-    } catch (error) {
-      display.value = error;
+  // if(num !== ""){
+  //   try {
+  //     display.value = math.evaluate(num);
+  //   } catch (error) {
+  //     display.value = error;
+  //   }
+  // }
+  let solved = flatParentheses(num); 
+  do{
+    solved=extractParentheses(solved);
+  }while(solved.includes("("));
+
+  const finalCalcNoParentheses = cal(solved);
+
+    display.value = finalCalcNoParentheses;
+
+}
+
+function flatParentheses() {
+  let result = display.value;
+  while (result.includes("((")) {
+    result = result.replace("((", "(");
+  }
+  // while (result.includes("))")) {
+  //   result = result.replace("))", ")");
+  // }
+  return result;
+}
+
+const calculate = {
+  "+":(num1,num2)=>num1+num2,
+  "-":(num1,num2)=>num1-num2,
+  "*":(num1,num2)=>num1*num2,
+  "/":(num1,num2)=>num1/num2,
+  "%":(num1,num2)=>num1%num2,
+  "^":(base,exp)=>Math.pow(base,exp)
+}
+
+function extractParentheses(strToCalc){
+  let substring="";
+  let lp = 0; 
+  let rp = 0; 
+  let foundLp = 0; 
+  let foundRp = 0; 
+  let addToSub = false; 
+  for(let i=0; i<strToCalc.length;i++){
+    const ch = strToCalc[i];
+    if(ch==="("){
+      lp++; 
+    }else if(ch===")"){
+      rp++; 
     }
   }
+
+  for(let i=0; i<strToCalc.length;i++){
+    const ch = strToCalc[i];
+    if(ch==="("){
+      foundLp++; 
+    }else if(ch===")"){
+      foundRp++; 
+    }
+    if(foundLp===lp){
+      addToSub=true; 
+    }
+    if(!isNumeric(ch)&&ch!=="."&&!tokens.includes(ch)){
+      addToSub=false;
+    }
+    if(addToSub){
+      substring+=ch; 
+    }
+  }
+  return strToCalc.replace(`(${substring})`,cal(substring))
+}
+
+function matchReg(sub){
+    const regex = new RegExp(`(\\d+|[\\${tokens.join('\\')}]|\.)`, 'g');
+    let result = sub.match(regex);
+    return result;
+}
+
+function cal(str) {
+  const arr = matchReg(str);
+
+  const precedenceGroups = [
+    ["^"],               
+    ["*", "/", "%"],    
+    ["+", "-"]            
+  ];
+
+  for (let group of precedenceGroups) {
+    let i = 0;
+    while (i < arr.length) {
+      if (group.includes(arr[i])) {
+        let num1 = parseFloat(arr[i - 1]);
+        let num2 = parseFloat(arr[i + 1]);
+        let result = calculate[arr[i]](num1, num2); 
+        arr.splice(i - 1, 3, result.toString()); 
+        i--;
+      } else {
+        i++;
+      }
+    }
+  }
+
+  return parseFloat(arr[0]); 
+}
+
+function isNumeric(str){
+  return /^\d+$/.test(str);
 }
 
 function ac() {
