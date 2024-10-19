@@ -103,7 +103,7 @@ function solve(num) {
 }
 
 /*
-*TODO: Add "*" before parenthese if ex. 2(2-7)
+*TODO: Add "*" before parenthese if ex. 2(2-7) - Done
 *Swith operator "+" in parenthese if "-" sits before parenthese
 *Block input of none numeric or operators characters - DONE
 *Remove operator if it a index 0 of display value unless it is a dot then insert a 0 - DONE 
@@ -155,18 +155,26 @@ function insertOpeBeforeParenthese(str) {
   return newStr;
 }
 
-function extractParentheses(strToCalc){
+function extractParentheses(strToCalc) {
   let substring = "";
   let startIndex = strToCalc.lastIndexOf("("); 
+
   if (startIndex !== -1) {
     let endIndex = strToCalc.indexOf(")", startIndex); 
+
     if (endIndex !== -1) {
       substring = strToCalc.slice(startIndex + 1, endIndex); 
       let result = cal(substring); 
-      return strToCalc.slice(0, startIndex) + result + strToCalc.slice(endIndex + 1); 
+      if (startIndex > 0 && strToCalc[startIndex - 1] === '-') {
+        result = -result;
+        strToCalc = strToCalc.slice(0, startIndex - 1) + result + strToCalc.slice(endIndex + 1);
+      } else {
+        strToCalc = strToCalc.slice(0, startIndex) + result + strToCalc.slice(endIndex + 1);
+      }
     }
   }
-  return strToCalc; 
+
+  return strToCalc;
 }
 
 
