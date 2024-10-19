@@ -56,6 +56,7 @@ function checkInput(){
   }
   display.value = removeInitalOperator(display.value);
   display.value = blockParentheseAfterDot(display.value); 
+  display.value = insertOpeBeforeParenthese(display.value); 
 }
 
 function addToScreen(input) {
@@ -65,6 +66,7 @@ function addToScreen(input) {
     if(!(lastChar==="("&&newChar==")")){
       display.value += newChar;
       display.value = removeInitalOperator(display.value); 
+      display.value = insertOpeBeforeParenthese(display.value); 
     }
   }
   display.value = blockParentheseAfterDot(display.value);
@@ -135,6 +137,22 @@ const calculate = {
   "/":(num1,num2)=>num1/num2,
   "%":(num1,num2)=>num1%num2,
   "^":(base,exp)=>Math.pow(base,exp)
+}
+
+function insertOpeBeforeParenthese(str) {
+  let newStr = "";
+  
+  for (let i = 0; i < str.length; i++) {
+    let currentChar = str.charAt(i);
+    let nextChar = str.charAt(i + 1);
+    if (isNumeric(currentChar) && nextChar === "(") {
+      newStr = newStr.concat(currentChar, "*");
+    } else {
+      newStr = newStr.concat(currentChar);
+    }
+  }
+
+  return newStr;
 }
 
 function extractParentheses(strToCalc){
