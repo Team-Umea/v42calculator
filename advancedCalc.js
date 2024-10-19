@@ -51,9 +51,10 @@ function checkInput(){
 
   if ((!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))))||
       (lastChar==="("&&newChar===")")||
-    (!isNumeric(newChar)&&!tokens.includes(newChar))) {
+      (!isNumeric(newChar)&&!tokens.includes(newChar))) {
     display.value = currentValue.slice(0, -1); 
   }
+  display.value = removeInitalOperator(display.value); 
 }
 
 function addToScreen(input) {
@@ -62,8 +63,22 @@ function addToScreen(input) {
   if ((!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar)))) {
     if(!(lastChar==="("&&newChar==")")){
       display.value += newChar;
+      display.value = removeInitalOperator(display.value); 
     }
   }
+}
+
+function removeInitalOperator(str){
+  const firstChar = str.charAt(0);
+  let newStr = str; 
+  if(str.length===1&&tokens.includes(firstChar)){
+    if(firstChar==="."){
+      newStr="0."
+    }else{
+      newStr="";
+    }
+  }
+  return newStr; 
 }
 
 function solve(num) {
@@ -86,7 +101,8 @@ function solve(num) {
 /*
 *TODO: Add "*" before parenthese if ex. 2(2-7)
 *Swith operator "+" in parenthese if "-" sits before parenthese
-*Block input of none numeric or operators characters
+*Block input of none numeric or operators characters - DONE
+*Remove operator if it a index 0 of display value unless it is a dot then insert a 0; 
 */
 
 function flatParentheses() {
