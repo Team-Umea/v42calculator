@@ -51,7 +51,7 @@ function checkInput(){
 
   if ((!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))))||
       (lastChar==="("&&newChar===")")||
-      (!isNumeric(newChar)&&!tokens.includes(newChar))) {
+      (!isNumeric(newChar)&&!tokens.includes(newChar)&&newChar!=="("&&newChar===")")) {
     display.value = currentValue.slice(0, -1); 
   }
   display.value = removeInitalOperator(display.value);
