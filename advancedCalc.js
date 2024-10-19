@@ -104,13 +104,6 @@ function solve(num) {
   }
 }
 
-/*
-*TODO: Add "*" before parenthese if ex. 2(2-7) - Done
-*Swith operator "+" in parenthese if "-" sits before parenthese
-*Block input of none numeric or operators characters - DONE
-*Remove operator if it a index 0 of display value unless it is a dot then insert a 0 - DONE 
-*/
-
 function blockParentheseAfterDot(str){
   let newStr = str
   if(str.length > 2){
