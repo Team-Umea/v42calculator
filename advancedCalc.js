@@ -54,7 +54,8 @@ function checkInput(){
       (!isNumeric(newChar)&&!tokens.includes(newChar))) {
     display.value = currentValue.slice(0, -1); 
   }
-  display.value = removeInitalOperator(display.value); 
+  display.value = removeInitalOperator(display.value);
+  display.value = blockParentheseAfterDot(display.value); 
 }
 
 function addToScreen(input) {
@@ -66,6 +67,7 @@ function addToScreen(input) {
       display.value = removeInitalOperator(display.value); 
     }
   }
+  display.value = blockParentheseAfterDot(display.value);
 }
 
 function removeInitalOperator(str){
@@ -102,8 +104,21 @@ function solve(num) {
 *TODO: Add "*" before parenthese if ex. 2(2-7)
 *Swith operator "+" in parenthese if "-" sits before parenthese
 *Block input of none numeric or operators characters - DONE
-*Remove operator if it a index 0 of display value unless it is a dot then insert a 0; 
+*Remove operator if it a index 0 of display value unless it is a dot then insert a 0 - DONE 
 */
+
+function blockParentheseAfterDot(str){
+  let newStr = str
+  if(str.length > 2){
+  const newChar = str.slice(-1); 
+  const dot = str.charAt(str.length-2); 
+    if(dot === "." &&(newChar==="("||newChar===")")){
+      newStr = str.slice(0,-1); 
+      console.log(newStr);
+    }
+  }
+  return newStr;
+}
 
 function flatParentheses() {
   let result = display.value;
