@@ -50,7 +50,8 @@ function checkInput(){
   const lastChar = currentValue.slice(-2, -1);
 
   if ((!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))))||
-(lastChar==="("&&newChar===")")) {
+      (lastChar==="("&&newChar===")")||
+    (!isNumeric(newChar)&&!tokens.includes(newChar))) {
     display.value = currentValue.slice(0, -1); 
   }
 }
@@ -81,6 +82,12 @@ function solve(num) {
   const finalCalcNoParentheses = cal(solved);
   display.value = finalCalcNoParentheses;
 }
+
+/*
+*TODO: Add "*" before parenthese if ex. 2(2-7)
+*Swith operator "+" in parenthese if "-" sits before parenthese
+*Block input of none numeric or operators characters
+*/
 
 function flatParentheses() {
   let result = display.value;
