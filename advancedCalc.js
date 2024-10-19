@@ -6,9 +6,7 @@ const del = document.querySelector(".btn-delete");
 const allClear = document.querySelector(".btn-allClear");
 const calc = document.querySelector(".calculator");
 
-// const tokens = ["+","-","/","*",".","^","%"];
-
-const tokens = ["^","*","","/","%","+","-","."];
+const tokens = ["^","*","/","%","+","-","."];
 
 
 buttonsAdd.forEach((btn) => {
@@ -81,9 +79,7 @@ function solve(num) {
   }while(solved.includes("("));
 
   const finalCalcNoParentheses = cal(solved);
-
-    display.value = finalCalcNoParentheses;
-
+  display.value = finalCalcNoParentheses;
 }
 
 function flatParentheses() {
@@ -91,9 +87,6 @@ function flatParentheses() {
   while (result.includes("((")) {
     result = result.replace("((", "(");
   }
-  // while (result.includes("))")) {
-  //   result = result.replace("))", ")");
-  // }
   return result;
 }
 
@@ -107,72 +100,46 @@ const calculate = {
 }
 
 function extractParentheses(strToCalc){
-  let substring="";
-  let lp = 0; 
-  let rp = 0; 
-  let foundLp = 0; 
-  let foundRp = 0; 
-  let addToSub = false; 
-  for(let i=0; i<strToCalc.length;i++){
-    const ch = strToCalc[i];
-    if(ch==="("){
-      lp++; 
-    }else if(ch===")"){
-      rp++; 
+  let substring = "";
+  let startIndex = strToCalc.lastIndexOf("("); 
+  if (startIndex !== -1) {
+    let endIndex = strToCalc.indexOf(")", startIndex); 
+    if (endIndex !== -1) {
+      substring = strToCalc.slice(startIndex + 1, endIndex); 
+      let result = cal(substring); 
+      return strToCalc.slice(0, startIndex) + result + strToCalc.slice(endIndex + 1); 
     }
   }
-
-  for(let i=0; i<strToCalc.length;i++){
-    const ch = strToCalc[i];
-    if(ch==="("){
-      foundLp++; 
-    }else if(ch===")"){
-      foundRp++; 
-    }
-    if(foundLp===lp){
-      addToSub=true; 
-    }
-    if(!isNumeric(ch)&&ch!=="."&&!tokens.includes(ch)){
-      addToSub=false;
-    }
-    if(addToSub){
-      substring+=ch; 
-    }
-  }
-  return strToCalc.replace(`(${substring})`,cal(substring))
+  return strToCalc; 
 }
 
-function matchReg(sub){
-    const regex = new RegExp(`(\\d+|[\\${tokens.join('\\')}]|\.)`, 'g');
-    let result = sub.match(regex);
-    return result;
+
+function matchReg(sub) {
+  const regex = new RegExp(`(\\d*\\.?\\d+|[\\${tokens.join('\\')}]|\\.)`, 'g');
+  let result = sub.match(regex);
+  return result;
 }
+
+//3-(6-0.5*(2-0.5))/2
 
 function cal(str) {
-  const arr = matchReg(str);
+  const arr = matchReg(str); 
 
-  const precedenceGroups = [
-    ["^"],               
-    ["*", "/", "%"],    
-    ["+", "-"]            
-  ];
-
-  for (let group of precedenceGroups) {
-    let i = 0;
-    while (i < arr.length) {
-      if (group.includes(arr[i])) {
-        let num1 = parseFloat(arr[i - 1]);
-        let num2 = parseFloat(arr[i + 1]);
-        let result = calculate[arr[i]](num1, num2); 
-        arr.splice(i - 1, 3, result.toString()); 
-        i--;
-      } else {
-        i++;
+  for (let i = 0; i < tokens.length - 1; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j] === tokens[i]) {
+        let num1 = parseFloat(arr[j - 1]);
+        let num2 = parseFloat(arr[j + 1]);
+        if (calculate[arr[j]]) {
+          let result = calculate[arr[j]](num1, num2); 
+          arr.splice(j - 1, 3, result.toString()); 
+          j--; 
+        }
       }
     }
   }
 
-  return parseFloat(arr[0]); 
+  return parseFloat(arr[0]);
 }
 
 function isNumeric(str){
