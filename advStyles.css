@@ -64,7 +64,13 @@ button {
   background: linear-gradient(45deg, #ff4500, #ff6347, #ff7f50, #ff8c00);
 }
 
-button:hover, button:focus {
+/* button:hover, button:focus {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(255, 100, 0, 0.5);
+  border: solid 2px black;
+} */
+
+button:hover{
   transform: scale(1.1);
   box-shadow: 0 8px 20px rgba(255, 100, 0, 0.5);
   border: solid 2px black;
