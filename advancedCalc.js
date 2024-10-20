@@ -7,14 +7,6 @@ const allClear = document.querySelector(".btn-allClear");
 const calc = document.querySelector(".calculator");
 
 const tokens = ["^", "*", "/", "%", "+", "-", "."];
-const operatorMap = {
-  "+": (num1, num2) => num1 + num2,
-  "-": (num1, num2) => num1 - num2,
-  "*": (num1, num2) => num1 * num2,
-  "/": (num1, num2) => num1 / num2,
-  "%": (num1, num2) => num1 % num2,
-  "^": (base, exp) => Math.pow(base, exp),
-};
 
 buttonsAdd.forEach((btn) => {
   btn.addEventListener("click", function (e) {
@@ -51,33 +43,31 @@ display.addEventListener("input", function (e) {
 
 setInterval(() => {
   calc.classList.remove("animate__rubberBand");
-}, 1000);
+}, 2000);
 
 function checkInput() {
-  let output = display.value;
-  const newChar = output.slice(-1);
-  const lastChar = output.slice(-2, -1);
+  const newChar = display.value.slice(-1);
+  const lastChar = display.value.slice(-2, -1);
 
   if (!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))) || (lastChar === "(" && newChar === ")") || (!isNumeric(newChar) && !tokens.includes(newChar) && newChar !== "(" && newChar === ")")) {
-    output = output.slice(0, -1);
+    display.value = display.value.slice(0, -1);
   }
-  output = removeInitalOperator(output);
-  output = blockParentheseAfterDot(output);
-  output = insertOperator(output);
+  display.value = removeInitalOperator(display.value);
+  display.value = blockParentheseAfterDot(display.value);
+  display.value = insertOperator(display.value);
 }
 
 function addToScreen(input) {
-  let output = display.value;
   const newChar = input;
-  const lastChar = output.slice(-1);
+  const lastChar = display.value.slice(-1);
   if (!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))) {
     if (!(lastChar === "(" && newChar == ")")) {
-      output += newChar;
-      output = removeInitalOperator(output);
-      output = insertOperator(output);
+      display.value += newChar;
+      display.value = removeInitalOperator(display.value);
+      display.value = insertOperator(display.value);
     }
   }
-  output = blockParentheseAfterDot(output);
+  display.value = blockParentheseAfterDot(display.value);
 }
 
 function solve(num) {
@@ -89,34 +79,9 @@ function solve(num) {
   //   }
   // }
   if (num !== "") {
-    let solved = flatParentheses(num);
-    do {
-      solved = extractParentheses(solved);
-    } while (solved.includes("("));
-
-    const finalCalcNoParentheses = calculate(solved);
+    const finalCalcNoParentheses = eval(num.replace(/\^/g, "**"));
     display.value = finalCalcNoParentheses;
   }
-}
-
-function calculate(str) {
-  const arr = matchReg(str);
-
-  for (let i = 0; i < tokens.length - 1; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j] === tokens[i]) {
-        let num1 = parseFloat(arr[j - 1]);
-        let num2 = parseFloat(arr[j + 1]);
-        if (operatorMap[arr[j]]) {
-          let result = operatorMap[arr[j]](num1, num2);
-          arr.splice(j - 1, 3, result.toString());
-          j--;
-        }
-      }
-    }
-  }
-
-  return parseFloat(arr[0]);
 }
 
 function removeInitalOperator(str) {
@@ -145,14 +110,6 @@ function blockParentheseAfterDot(str) {
   return newStr;
 }
 
-function flatParentheses() {
-  let result = display.value;
-  while (result.includes("((")) {
-    result = result.replace("((", "(");
-  }
-  return result;
-}
-
 function insertOperator(str) {
   let newStr = "";
 
@@ -167,34 +124,6 @@ function insertOperator(str) {
   }
 
   return newStr;
-}
-
-function extractParentheses(strToCalc) {
-  let substring = "";
-  let startIndex = strToCalc.lastIndexOf("(");
-
-  if (startIndex !== -1) {
-    let endIndex = strToCalc.indexOf(")", startIndex);
-
-    if (endIndex !== -1) {
-      substring = strToCalc.slice(startIndex + 1, endIndex);
-      let result = calculate(substring);
-      if (startIndex > 0 && strToCalc[startIndex - 1] === "-") {
-        result = -result;
-        strToCalc = strToCalc.slice(0, startIndex - 1) + result + strToCalc.slice(endIndex + 1);
-      } else {
-        strToCalc = strToCalc.slice(0, startIndex) + result + strToCalc.slice(endIndex + 1);
-      }
-    }
-  }
-
-  return strToCalc;
-}
-
-function matchReg(sub) {
-  const regex = new RegExp(`(\\d*\\.?\\d+|[\\${tokens.join("\\")}]|\\.)`, "g");
-  let result = sub.match(regex);
-  return result;
 }
 
 function isNumeric(str) {
