@@ -63,7 +63,7 @@ switch (operator) {
     break;
 }
 
-if(result || result===0){
-alert(`Result: ${result}`);
-console.log(`Result: ${result}`);
+if (result || result === 0) {
+  alert(`Result: ${result}`);
+  console.log(`Result: ${result}`);
 }
