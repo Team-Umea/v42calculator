@@ -49,7 +49,7 @@ function checkInput() {
   const newChar = display.value.slice(-1);
   const lastChar = display.value.slice(-2, -1);
 
-  if (!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))) || (lastChar === "(" && newChar === ")") || (!isNumeric(newChar) && !tokens.includes(newChar) && newChar !== "(" && newChar === ")")) {
+  if (!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))) || (!isNumeric(newChar) && !tokens.includes(newChar) && newChar !== "(" && newChar !== ")")) {
     display.value = display.value.slice(0, -1);
   }
   display.value = removeInitalOperator(display.value);
