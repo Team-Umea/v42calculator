@@ -52,6 +52,9 @@ function checkInput() {
   if (!(!tokens.includes(newChar) || (!tokens.includes(lastChar) && tokens.includes(newChar))) || (!isNumeric(newChar) && !tokens.includes(newChar) && newChar !== "(" && newChar !== ")")) {
     display.value = display.value.slice(0, -1);
   }
+  if (lastChar === "(" && newChar === ")") {
+    display.value = display.value.slice(0, -1);
+  }
   display.value = removeInitalOperator(display.value);
   display.value = blockParentheseAfterDot(display.value);
   display.value = insertOperator(display.value);
