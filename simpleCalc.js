@@ -45,7 +45,7 @@ while (kalkylator) {
   if (användarinfo) {
     användarinfo.toLowerCase();
   }
-  if (användarinfo !== "ja") {
+  if (användarinfo == "nej") {
     kalkylator = false;
     console.log("Tack för att du använde dig av team umeås kalkylator");
   }
