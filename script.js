@@ -18,15 +18,8 @@ switch (menu) {
   case 1:
     let returnToMenu = false;
     do {
-      let num1;
-      let num2;
-      let sum;
-      do {
-        num1 = parseFloat(prompt("Ange det första talet du vill addera:"));
-      } while (isNaN(num1));
-      do {
-        num2 = parseFloat(prompt("Ange det andra talet du vill addera:"));
-      } while (isNaN(num2));
+      let num1 = promptToNumber("Ange det första talet du vill addera:");
+      let num2 = promptToNumber("Ange det andra talet du vill addera:");
 
       sum = num1 + num2;
 
