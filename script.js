@@ -140,6 +140,7 @@ switch (menu) {
         break;
       }
     }
+    break;
   case 10:
     while (true) {
       let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):");
