@@ -112,6 +112,45 @@ switch (menu) {
     }
     break;
   case 9:
+    while (true) {
+      let trigonometricExp = promptToTrigonometric();
+
+      let degOrRad = extractNumber(trigonometricExp);
+      let trigonometricFunc = extractTrigFunction(trigonometricExp);
+      let unit = trigonometricExp.includes("rad") ? "rad" : "deg";
+      let angle = unit === "rad" ? degOrRad * (Math.PI / 180) : degOrRad;
+
+      let calculation;
+
+      switch (trigonometricFunc) {
+        case "tan":
+          calculation = Math.tan(angle);
+          break;
+        case "sin":
+          calculation = Math.sin(angle);
+          break;
+        case "cos":
+          calculation = Math.cos(angle);
+          break;
+      }
+
+      let calculationAsText = `${trigonometricFunc.charAt(0).toUpperCase() + trigonometricFunc.slice(1)} of ${degOrRad}${unit === "rad" ? "π" : "°"} = ${calculation}`;
+
+      if (returnToMenu(calculationAsText)) {
+        break;
+      }
+    }
+  case 10:
+    while (true) {
+      let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):");
+      let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)");
+      let calculation = Math.log(num2) / Math.log(num1);
+      let calculationAsText = `log${num1}(${num2}) = ${calculation}`;
+
+      if (returnToMenu(calculationAsText)) {
+        break;
+      }
+    }
     break;
   case 11:
     while (true) {
@@ -186,3 +225,47 @@ function onlyPostiveNumber(message) {
   } while (num < 0 || isNaN(num));
   return num;
 }
+
+function promptToTrigonometric() {
+  let trigFunction;
+
+  do {
+    trigFunction = prompt("Ange en trigonometriska funktion följt av antalet grader (cos90, sin10, tan270...) för att använda radianer istället för grader skriv 'rad' efter antalet grader (cos1rad, sin1.2rad, tan0.3rad...) ").trim().toLowerCase().replace(",", ".");
+  } while (!(Boolean(extractNumber(trigFunction)) && (trigFunction.includes("tan") || trigFunction.includes("sin") || trigFunction.includes("cos"))) || !Boolean(extractNumber(trigFunction)));
+
+  return trigFunction;
+}
+
+function removeTrigFunction(str) {
+  return str.replace("tan", "").replace("sin", "").replace("cos", "");
+}
+
+function extractTrigFunction(str) {
+  return str.includes("tan") ? "tan" : str.includes("sin") ? "sin" : str.includes("cos") ? "cos" : "";
+}
+
+function extractNumber(str) {
+  let number = "";
+  let foundNumber = false;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (!isNaN(ch)) {
+      foundNumber = true;
+    }
+    if (foundNumber && isNaN(ch) && ch !== ".") {
+      break;
+    }
+    if (!isNaN(ch) || ch === ".") {
+      number += ch;
+    }
+  }
+  console.log("Num: ", number);
+  return parseFloat(number);
+}
+
+// function capitalizeFirstLetter(str) {
+//   if (typeof str !== "string" || str.length === 0) {
+//     return str;
+//   }
+//   return str.charAt(0).toUpperCase() + str.slice(1);
+// }
