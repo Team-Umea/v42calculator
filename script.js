@@ -16,6 +16,24 @@ showMenu();
 
 switch (menu) {
   case 1:
+    let returnToMenu = false;
+    do {
+      let num1;
+      let num2;
+      let sum;
+      do {
+        num1 = parseFloat(prompt("Ange det första talet du vill addera:"));
+      } while (isNaN(num1));
+      do {
+        num2 = parseFloat(prompt("Ange det andra talet du vill addera:"));
+      } while (isNaN(num2));
+
+      sum = num1 + num2;
+
+      if (prompt(`${num1} + ${num2} = ${sum}\n\n Vill du gå tillbaka till menyn (ja/nej)`).trim().toLowerCase() === "ja") {
+        returnToMenu = true;
+      }
+    } while (!returnToMenu);
     break;
   case 2:
     break;
@@ -41,6 +59,11 @@ function showMenu() {
     menu = Number(prompt(`Välj ett alterntiv nedan genom att ange siffran som motsvarar det alternativet (du kan bara välja 1-9) \n\n${menuInTextFormat}`));
   } while (isNaN(menu) || !vaildMenuChoices.includes(menu));
 }
+
+// function handleAddition() {
+//     let j = 0;
+
+// }
 
 function addNumbers(num1, num2) {
   return num1 + num2;
