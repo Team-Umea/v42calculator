@@ -2,7 +2,7 @@
 let menuInTextFormat = "";
 let menuIndex = 1;
 let menuChoice;
-let calculations = ["aaa", "bbb", "ccc"];
+let calculations = [];
 
 const vaildMenuChoices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
@@ -81,6 +81,13 @@ function extractNumber(str) {
   return parseFloat(number);
 }
 
+function storeCalculation(calculation, calculationAsText) {
+  calculations.push({
+    calculation: calculation,
+    calculationAsText: calculationAsText,
+  });
+}
+
 do {
   showMenu();
 
@@ -91,7 +98,7 @@ do {
         let num2 = promptToNumber("Ange det andra talet du vill addera:");
         let calculation = num1 + num2;
         let calculationAsText = `${num1} + ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -103,7 +110,7 @@ do {
         let num2 = promptToNumber("Ange det andra talet du vill subtrahera:");
         let calculation = num1 - num2;
         let calculationAsText = `${num1} - ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -115,7 +122,7 @@ do {
         let num2 = promptToNumber("Ange det andra talet du vill multiplicera:");
         let calculation = num1 * num2;
         let calculationAsText = `${num1} * ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -127,7 +134,7 @@ do {
         let num2 = promptToNumberNoZero("Ange det andra talet du vill dividera (du kan inte dividera med 0):");
         let calculation = num1 / num2;
         let calculationAsText = `${num1} / ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -139,7 +146,7 @@ do {
         let num2 = promptToNumberNoZero("Ange det andra talet du vill använda modulus på (det får inte vara 0 när du använder modulus):");
         let calculation = num1 % num2;
         let calculationAsText = `${num1} % ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -151,7 +158,7 @@ do {
         let num2 = promptToNumber(`Hur många procent av ${num1} vill beräkna? Ange det procentuella värdet som ett nummer (ex. 10, 24, 76..)`);
         let calculation = num1 * num2 * 0.01;
         let calculationAsText = `${num2}% av ${num1} är ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -163,7 +170,7 @@ do {
         let num2 = promptToNumber("Ange exponenten av det talet du vill upphöja som ett nummer:");
         let calculation = num1 ** num2;
         let calculationAsText = `${num1} ^ ${num2} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -175,7 +182,7 @@ do {
         let num2 = promptToNumber("Ange vilken grad av rot du vill använda (ex. 2, 3, 4...)");
         let calculation = Math.pow(num1, 1 / num2);
         let calculationAsText = `${num2} √ ${num1} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -184,14 +191,11 @@ do {
     case 9:
       while (true) {
         let trigonometricExp = promptToTrigonometric();
-
         let degOrRad = extractNumber(trigonometricExp);
         let trigonometricFunc = extractTrigFunction(trigonometricExp);
         let unit = trigonometricExp.includes("rad") ? "rad" : "deg";
         let angle = unit === "rad" ? degOrRad * (Math.PI / 180) : degOrRad;
-
         let calculation;
-
         switch (trigonometricFunc) {
           case "tan":
             calculation = Math.tan(angle);
@@ -205,7 +209,7 @@ do {
         }
 
         let calculationAsText = `${trigonometricFunc.charAt(0).toUpperCase() + trigonometricFunc.slice(1)} of ${degOrRad}${unit === "rad" ? "π" : "°"} = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -217,7 +221,7 @@ do {
         let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)");
         let calculation = Math.log(num2) / Math.log(num1);
         let calculationAsText = `log${num1}(${num2}) = ${calculation}`;
-
+        storeCalculation(calculation, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -238,9 +242,8 @@ do {
             fib[i] = fib[i - 1] + fib[i - 2];
           }
         }
-
         calculationAsText = `Fibonacci sekvensen med ${num} värden är: ${fib.toString()}`;
-
+        storeCalculation(fib, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -251,14 +254,12 @@ do {
         let num = onlyPostiveNumber("Ange ett positivt heltal tal att räkna fakulet av (1 : 1, 2: 1*2 = 2, 3 : 1*2*3 = 6, 4 : 1*2*3*4 = 24)");
         let fak = 1;
         let calculationAsText = `Fakulet av ${num} är: `;
-
         for (let i = 1; i <= num; i++) {
           fak *= i;
           calculationAsText += i <= num - 1 ? `${i}*` : i;
         }
-
         calculationAsText += ` = ${fak}`;
-
+        storeCalculation(fak, calculationAsText);
         if (returnToMenu(calculationAsText)) {
           break;
         }
@@ -268,7 +269,7 @@ do {
       let calculationsAsText = "Uförda beräkningar:\n\n";
       for (let i = 0; i < calculations.length; i++) {
         const calculation = calculations[i];
-        calculationsAsText += `${i + 1}. ${calculation} ${i < calculations.length - 1 ? "\n" : ""}`;
+        calculationsAsText += `${i + 1}. ${calculation.calculationAsText} ${i < calculations.length - 1 ? "\n" : ""}`;
       }
       if (prompt(`${calculationsAsText}\n\nOm du vill avsluta programmet skriv (ja) annars tryck ok för att komma tillbaka till menyn`).trim().toLowerCase() === "ja" ? true : false) {
         menuChoice = 14;
