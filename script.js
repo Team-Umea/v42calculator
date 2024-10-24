@@ -60,6 +60,14 @@ function showMenu() {
   } while (isNaN(menu) || !vaildMenuChoices.includes(menu));
 }
 
+function promptToNumber(promptMessage) {
+  let num;
+  do {
+    num = Number(prompt(promptMessage));
+  } while (isNaN(num));
+  return num;
+}
+
 // function handleAddition() {
 //     let j = 0;
 
