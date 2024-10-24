@@ -262,10 +262,3 @@ function extractNumber(str) {
   console.log("Num: ", number);
   return parseFloat(number);
 }
-
-// function capitalizeFirstLetter(str) {
-//   if (typeof str !== "string" || str.length === 0) {
-//     return str;
-//   }
-//   return str.charAt(0).toUpperCase() + str.slice(1);
-// }
