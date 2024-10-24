@@ -5,10 +5,10 @@ let menu;
 
 const vaildMenuChoices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const menuOptions = ["Addition", "Subtraktion", "Multiplikation", "Division", "Modulus", "Exponentiering", "Trigonometri", "Logaritmera", "Visa senaste uträkningar", "Avsluta program"];
+const menuOptions = ["Addition av två tal", "Subtraktion av två tal", "Multiplikation av två tal", "Division av två tal", "Modulus av två tal", "Procent beräkning av två tal", "Exponentiering av två tal", "Trigonometri av två tal", "Logaritmera av två tal", "Visa senaste uträkningar", "Avsluta program"];
 
 for (const option of menuOptions) {
-  menuInTextFormat += `${menuIndex}. ${option}\n`;
+  menuInTextFormat += `${menuIndex}. ${option} ${menuIndex < menuOptions.length ? "\n" : ""}`;
   menuIndex++;
 }
 
@@ -40,4 +40,23 @@ function showMenu() {
   do {
     menu = Number(prompt(`Välj ett alterntiv nedan genom att ange siffran som motsvarar det alternativet (du kan bara välja 1-9) \n\n${menuInTextFormat}`));
   } while (isNaN(menu) || !vaildMenuChoices.includes(menu));
+}
+
+function addNumbers(num1, num2) {
+  return num1 + num2;
+}
+function subtractNumbers(num1, num2) {
+  return num1 - num2;
+}
+function multiplyNumbers(num1, num2) {
+  return num1 * num2;
+}
+function divideNumbers(num1, num2) {
+  return num1 / num2;
+}
+function modulusNumbers(num1, num2) {
+  return num1 % num2;
+}
+function powerNumbers(num1, num2) {
+  return num1 ** num2;
 }
