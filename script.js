@@ -32,6 +32,14 @@ function promptToNumber(promptMessage) {
   return num;
 }
 
+function promptToNumberNoZero(promptMessage) {
+  let num;
+  do {
+    num = Number(prompt(promptMessage));
+  } while (isNaN(num) || num === 0);
+  return num;
+}
+
 function onlyPostiveNumber(message) {
   let num;
   do {
@@ -116,7 +124,7 @@ do {
     case 4:
       while (true) {
         let num1 = promptToNumber("Ange det första talet du vill dividera:");
-        let num2 = promptToNumber("Ange det andra talet du vill dividera:");
+        let num2 = promptToNumberNoZero("Ange det andra talet du vill dividera (du kan inte dividera med 0):");
         let calculation = num1 / num2;
         let calculationAsText = `${num1} / ${num2} = ${calculation}`;
 
@@ -128,7 +136,7 @@ do {
     case 5:
       while (true) {
         let num1 = promptToNumber("Ange det första talet du vill använda modulus på:");
-        let num2 = promptToNumber("Ange det andra talet du vill använda modulus på:");
+        let num2 = promptToNumberNoZero("Ange det andra talet du vill använda modulus på (det får inte vara 0 när du använder modulus):");
         let calculation = num1 % num2;
         let calculationAsText = `${num1} % ${num2} = ${calculation}`;
 
