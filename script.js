@@ -16,17 +16,17 @@ showMenu();
 
 switch (menu) {
   case 1:
-    let returnToMenu = false;
-    do {
+    while (true) {
       let num1 = promptToNumber("Ange det första talet du vill addera:");
       let num2 = promptToNumber("Ange det andra talet du vill addera:");
+      let calculation = num1 + num2;
+      let calculationAsText = `${num1} + ${num2} = ${calculation}`;
 
-      sum = num1 + num2;
-
-      if (prompt(`${num1} + ${num2} = ${sum}\n\n Vill du gå tillbaka till menyn (ja/nej)`).trim().toLowerCase() === "ja") {
-        returnToMenu = true;
+      if (returnToMenu(calculationAsText)) {
+        break;
       }
-    } while (!returnToMenu);
+    }
+
     break;
   case 2:
     break;
@@ -53,34 +53,14 @@ function showMenu() {
   } while (isNaN(menu) || !vaildMenuChoices.includes(menu));
 }
 
+function returnToMenu(calculation) {
+  return prompt(`${calculation}\n\n Vill du gå tillbaka till menyn (ja/nej)`).trim().toLowerCase() === "ja" ? true : false;
+}
+
 function promptToNumber(promptMessage) {
   let num;
   do {
     num = Number(prompt(promptMessage));
   } while (isNaN(num));
   return num;
-}
-
-// function handleAddition() {
-//     let j = 0;
-
-// }
-
-function addNumbers(num1, num2) {
-  return num1 + num2;
-}
-function subtractNumbers(num1, num2) {
-  return num1 - num2;
-}
-function multiplyNumbers(num1, num2) {
-  return num1 * num2;
-}
-function divideNumbers(num1, num2) {
-  return num1 / num2;
-}
-function modulusNumbers(num1, num2) {
-  return num1 % num2;
-}
-function powerNumbers(num1, num2) {
-  return num1 ** num2;
 }
