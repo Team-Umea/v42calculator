@@ -5,19 +5,9 @@ let menu;
 
 const vaildMenuChoices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const menuOptions = {
-  option1: "Addition",
-  option2: "Subtraktion",
-  option3: "Multiplikation",
-  option4: "Modulus",
-  option5: "Exponentiering",
-  option6: "Trigonometri",
-  option7: "Logaritmera",
-  option8: "Visa senaste uträkningar",
-  option9: "Avsluta program",
-};
+const menuOptions = ["Addition", "Subtraktion", "Multiplikation", "Division", "Modulus", "Exponentiering", "Trigonometri", "Logaritmera", "Visa senaste uträkningar", "Avsluta program"];
 
-for (const option of Object.values(menuOptions)) {
+for (const option of menuOptions) {
   menuInTextFormat += `${menuIndex}. ${option}\n`;
   menuIndex++;
 }
