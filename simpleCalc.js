@@ -1,6 +1,6 @@
 // loop så man kan räkna flera tal
 let kalkylator = true;
-while (calculator) {
+while (kalkylator) {
   const tal1 = Number(prompt("Välj första talet"));
   const operator = prompt("Välj en operator(+,-,*,/,%)");
   const tal2 = Number(prompt("Välj andra talet"));
