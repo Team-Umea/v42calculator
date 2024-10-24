@@ -236,10 +236,6 @@ function promptToTrigonometric() {
   return trigFunction;
 }
 
-function removeTrigFunction(str) {
-  return str.replace("tan", "").replace("sin", "").replace("cos", "");
-}
-
 function extractTrigFunction(str) {
   return str.includes("tan") ? "tan" : str.includes("sin") ? "sin" : str.includes("cos") ? "cos" : "";
 }
