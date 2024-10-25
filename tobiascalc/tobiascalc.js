@@ -5,7 +5,7 @@ while (calculator) {
   const operator = prompt("Pick an operator (+, -, *, /, %)");
   const num2 = Number(prompt("Enter the denominator"));
 
-  // kollar så att det är nummer samt en operator
+  // kollar så att det är nummer samt någon av operatorerna
   if (isNaN(num1) || isNaN(num2)) {
     console.log("You can only enter numbers");
     alert("You can only enter numbers");
@@ -13,7 +13,7 @@ while (calculator) {
     console.log("You must enter a valid operator (+, -, *, /, %)");
     alert("You must enter a valid operator (+, -, *, /, %)");
 
-    // kollar vilken operator samt tal du gett och gör uträkningen
+   // kollar vilken operator samt tal du gett och gör uträkningen
   } else if (operator === "+") {
     console.log(num1 + num2);
     alert(num1 + num2);
