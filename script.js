@@ -14,8 +14,6 @@ let history = [];
 //historik, använd 4 loop
 //Två nummer som input/ case (num1 och num2)
 
-const validMenuChoices = [1,2,3,4,5,6,7,8,9,]
-
 const menuText = `Välj en uträkningsmetod nedan (1-11)\n
     1. Addition för att utföra addition av två tal
     2. Subtraktion för att utföra subtraktion av två tal
@@ -30,6 +28,7 @@ const menuText = `Välj en uträkningsmetod nedan (1-11)\n
     11. Avsluta för att avsluta programmet`;
 
 do {
+
 let menuChoice;
 do{
     menuChoice = Number(promptToNumber(menuText));
@@ -40,13 +39,9 @@ do{
     case 1: //addition
       while (calc) {
         let num1 = promptToNumber("Ange det första talet du vill addera:");
-        let num2 = promptToNumber(
-          `Du har angett ${num1} + välj ett tal att addera till uträkning :`
-        );
+        let num2 = promptToNumber(`Du har angett ${num1} + välj ett tal att addera till uträkning :`);
         let sum = num1 + num2;
-        let continuePrompt = prompt(
-          `Summan av ${num1} + ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`
-        );
+        let continuePrompt = prompt(`Summan av ${num1} + ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
 
         history.unshift(num1 + " + " + num2 + " = " + sum);
         isValidInput(continuePrompt) === "ja" ? calc = false : calc = true; //ternary operator ✔
@@ -55,13 +50,9 @@ do{
     case 2: //subtraktion
       while (calc) {
         let num1 = promptToNumber("Ange det första talet du vill subtrahera:");
-        let num2 = promptToNumber(
-          `Du har angett ${num1} - välj ett tal att subtrahera med uträkning :`
-        );
+        let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att subtrahera med uträkning :`);
         let sum = num1 - num2;
-        let continuePrompt = prompt(
-          `Differensen av ${num1} - ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`
-        );
+        let continuePrompt = prompt(`Differensen av ${num1} - ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
 
         history.unshift(num1 + " - " + num2 + " = " + sum);
 
@@ -73,16 +64,10 @@ do{
 
     case 3: //multiplikation
       while (calc) {
-        let num1 = promptToNumber(
-          "Ange det första talet du vill multiplicera:"
-        );
-        let num2 = promptToNumber(
-          `Du har angett ${num1} - välj ett tal att multiplicera med:`
-        );
+        let num1 = promptToNumber("Ange det första talet du vill multiplicera:");
+        let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att multiplicera med:`);
         let sum = num1 * num2;
-        let continuePrompt = prompt(
-          `Produkten av ${num1} * ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`
-        );
+        let continuePrompt = prompt(`Produkten av ${num1} * ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
 
         history.unshift(num1 + " * " + num2 + " = " + sum);
 
@@ -153,7 +138,7 @@ do{
     while (calc) {
         let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):");
         let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)");
-        let sum = Math.log(num2)/Math.log(num1); //num1*(1/num2)  (num1**1/2) ((num**2)*1/2) ??? ROTEN UR!! Math.pow(num1,1/num2)
+        let sum = Math.log(num2)/Math.log(num1);
         let continuePrompt = prompt(`log${num1}(${num2}) = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
         history.unshift(`log${num1}(${num2}) = ${sum}`);
         if (isValidInput(continuePrompt) === "ja") {
@@ -193,10 +178,12 @@ do{
     case 10: //visa historik
       let arrAsText = "";
       for (let i = 0; i < history.length; i++) {
-        arrAsText += i + 1 + history[i] + "\n";
+        arrAsText += `${i + 1}. ${history[i]}\n`;
       }
       let continuePrompt = prompt(
-        "Här är dina uträkningar mata in korresponderande siffra för att använda den i en annan uträkning, alternativt skriv 'ja' för att gå tillbaka till huvudmenyn"
+        `Här är dina uträkningar mata in korresponderande siffra för att använda den i en annan uträkning, alternativt skriv 'ja' för att gå tillbaka till huvudmenyn
+        
+        ${arrAsText}`
       );
       if (continuePrompt === "ja") {
         break;
