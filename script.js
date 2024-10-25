@@ -3,6 +3,7 @@ let menuInTextFormat = "";
 let menuIndex = 1;
 let menuChoice;
 let calculations = [];
+let useStoredCalc = null;
 
 const vaildMenuChoices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
@@ -16,7 +17,7 @@ for (const option of menuOptions) {
 function showMenu() {
   menuChoice = null;
   do {
-    menuChoice = Number(prompt(`Välj ett alterntiv nedan genom att ange siffran som motsvarar det alternativet (du kan bara välja 1-9) \n\n${menuInTextFormat}`));
+    menuChoice = Number(prompt(`Välj ett alterntiv nedan genom att ange siffran som motsvarar det alternativet (du kan bara välja 1-14) \n\n${menuInTextFormat}`));
   } while (isNaN(menuChoice) || !vaildMenuChoices.includes(menuChoice));
 }
 
@@ -24,11 +25,17 @@ function returnToMenu(calculation) {
   return prompt(`${calculation}\n\n Vill du gå tillbaka till menyn (ja/nej)`).trim().toLowerCase() === "ja" ? true : false;
 }
 
-function promptToNumber(promptMessage) {
+function promptToNumber(promptMessage, isFirstValue) {
   let num;
-  do {
-    num = Number(prompt(promptMessage));
-  } while (isNaN(num));
+  if (isFirstValue && useStoredCalc) {
+    alert(`Ditt första tal är: ${useStoredCalc}`);
+    num = useStoredCalc;
+    useStoredCalc = null;
+  } else {
+    do {
+      num = Number(prompt(promptMessage));
+    } while (isNaN(num));
+  }
   return num;
 }
 
@@ -42,9 +49,15 @@ function promptToNumberNoZero(promptMessage) {
 
 function onlyPostiveNumber(message) {
   let num;
-  do {
-    num = Number(prompt(message));
-  } while (num < 0 || isNaN(num));
+  if (useStoredCalc && useStoredCalc >= 0) {
+    alert(`Fakulet kommer att beräknas av ${useStoredCalc} då du har valt att använda det värdet från tidigare beräkningar`);
+    num = useStoredCalc;
+    useStoredCalc = null;
+  } else {
+    do {
+      num = Number(prompt(message));
+    } while (num < 0 || isNaN(num));
+  }
   return num;
 }
 
@@ -53,7 +66,7 @@ function promptToTrigonometric() {
 
   do {
     trigFunction = prompt("Ange en trigonometriska funktion följt av antalet grader (cos90, sin10, tan270...) för att använda radianer istället för grader skriv 'rad' efter antalet grader (cos1rad, sin1.2rad, tan0.3rad...) ").trim().toLowerCase().replace(",", ".");
-  } while (!(Boolean(extractNumber(trigFunction)) && (trigFunction.includes("tan") || trigFunction.includes("sin") || trigFunction.includes("cos"))) || !Boolean(extractNumber(trigFunction)));
+  } while (!(Boolean(extractNumber(trigFunction, false)) && (trigFunction.includes("tan") || trigFunction.includes("sin") || trigFunction.includes("cos"))) || !Boolean(extractNumber(trigFunction, false)));
 
   return trigFunction;
 }
@@ -62,27 +75,32 @@ function extractTrigFunction(str) {
   return str.includes("tan") ? "tan" : str.includes("sin") ? "sin" : str.includes("cos") ? "cos" : "";
 }
 
-function extractNumber(str) {
+function extractNumber(str, assignToDegress) {
   let number = "";
   let foundNumber = false;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str[i];
-    if (!isNaN(ch)) {
-      foundNumber = true;
-    }
-    if (foundNumber && isNaN(ch) && ch !== ".") {
-      break;
-    }
-    if (!isNaN(ch) || ch === ".") {
-      number += ch;
+  if (useStoredCalc && assignToDegress) {
+    alert(`Fibonacci sekvensen kommer att beräknas av ${useStoredCalc} då du har valt att använda det värdet från tidigare beräkningar`);
+    number = useStoredCalc;
+    useStoredCalc = null;
+  } else {
+    for (let i = 0; i < str.length; i++) {
+      const ch = str[i];
+      if (!isNaN(ch)) {
+        foundNumber = true;
+      }
+      if (foundNumber && isNaN(ch) && ch !== ".") {
+        break;
+      }
+      if (!isNaN(ch) || ch === ".") {
+        number += ch;
+      }
     }
   }
-  console.log("Num: ", number);
   return parseFloat(number);
 }
 
 function storeCalculation(calculation, calculationAsText) {
-  calculations.push({
+  calculations.unshift({
     calculation: calculation,
     calculationAsText: calculationAsText,
   });
@@ -94,8 +112,8 @@ do {
   switch (menuChoice) {
     case 1:
       while (true) {
-        let num1 = promptToNumber("Ange det första talet du vill addera:");
-        let num2 = promptToNumber("Ange det andra talet du vill addera:");
+        let num1 = promptToNumber("Ange det första talet du vill addera:", true);
+        let num2 = promptToNumber("Ange det andra talet du vill addera:", false);
         let calculation = num1 + num2;
         let calculationAsText = `${num1} + ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -106,8 +124,8 @@ do {
       break;
     case 2:
       while (true) {
-        let num1 = promptToNumber("Ange det första talet du vill subtrahera:");
-        let num2 = promptToNumber("Ange det andra talet du vill subtrahera:");
+        let num1 = promptToNumber("Ange det första talet du vill subtrahera:", true);
+        let num2 = promptToNumber("Ange det andra talet du vill subtrahera:", false);
         let calculation = num1 - num2;
         let calculationAsText = `${num1} - ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -118,8 +136,8 @@ do {
       break;
     case 3:
       while (true) {
-        let num1 = promptToNumber("Ange det första talet du vill multiplicera:");
-        let num2 = promptToNumber("Ange det andra talet du vill multiplicera:");
+        let num1 = promptToNumber("Ange det första talet du vill multiplicera:", true);
+        let num2 = promptToNumber("Ange det andra talet du vill multiplicera:", false);
         let calculation = num1 * num2;
         let calculationAsText = `${num1} * ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -130,8 +148,8 @@ do {
       break;
     case 4:
       while (true) {
-        let num1 = promptToNumber("Ange det första talet du vill dividera:");
-        let num2 = promptToNumberNoZero("Ange det andra talet du vill dividera (du kan inte dividera med 0):");
+        let num1 = promptToNumber("Ange det första talet du vill dividera:", true);
+        let num2 = promptToNumberNoZero("Ange det andra talet du vill dividera (du kan inte dividera med 0):", false);
         let calculation = num1 / num2;
         let calculationAsText = `${num1} / ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -142,8 +160,8 @@ do {
       break;
     case 5:
       while (true) {
-        let num1 = promptToNumber("Ange det första talet du vill använda modulus på:");
-        let num2 = promptToNumberNoZero("Ange det andra talet du vill använda modulus på (det får inte vara 0 när du använder modulus):");
+        let num1 = promptToNumber("Ange det första talet du vill använda modulus på:", true);
+        let num2 = promptToNumberNoZero("Ange det andra talet du vill använda modulus på (det får inte vara 0 när du använder modulus):", false);
         let calculation = num1 % num2;
         let calculationAsText = `${num1} % ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -154,8 +172,8 @@ do {
       break;
     case 6:
       while (true) {
-        let num1 = promptToNumber("Ange det värdet som du vill beräkna procent av som ett nummer:");
-        let num2 = promptToNumber(`Hur många procent av ${num1} vill beräkna? Ange det procentuella värdet som ett nummer (ex. 10, 24, 76..)`);
+        let num1 = promptToNumber("Ange det värdet som du vill beräkna procent av som ett nummer:", true);
+        let num2 = promptToNumber(`Hur många procent av ${num1} vill beräkna? Ange det procentuella värdet som ett nummer (ex. 10, 24, 76..)`, false);
         let calculation = num1 * num2 * 0.01;
         let calculationAsText = `${num2}% av ${num1} är ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -166,8 +184,8 @@ do {
       break;
     case 7:
       while (true) {
-        let num1 = promptToNumber("Ange basen av det talet du vill upphöja som ett nummer:");
-        let num2 = promptToNumber("Ange exponenten av det talet du vill upphöja som ett nummer:");
+        let num1 = promptToNumber("Ange basen av det talet du vill upphöja som ett nummer:", true);
+        let num2 = promptToNumber("Ange exponenten av det talet du vill upphöja som ett nummer:", false);
         let calculation = num1 ** num2;
         let calculationAsText = `${num1} ^ ${num2} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -178,8 +196,8 @@ do {
       break;
     case 8:
       while (true) {
-        let num1 = promptToNumber("Ange vilket tal du vill ta roten ur på:");
-        let num2 = promptToNumber("Ange vilken grad av rot du vill använda (ex. 2, 3, 4...)");
+        let num1 = promptToNumber("Ange vilket tal du vill ta roten ur på:", true);
+        let num2 = promptToNumber("Ange vilken grad av rot du vill använda (ex. 2, 3, 4...)", false);
         let calculation = Math.pow(num1, 1 / num2);
         let calculationAsText = `${num2} √ ${num1} = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -191,7 +209,7 @@ do {
     case 9:
       while (true) {
         let trigonometricExp = promptToTrigonometric();
-        let degOrRad = extractNumber(trigonometricExp);
+        let degOrRad = extractNumber(trigonometricExp, true);
         let trigonometricFunc = extractTrigFunction(trigonometricExp);
         let unit = trigonometricExp.includes("rad") ? "rad" : "deg";
         let angle = unit === "rad" ? degOrRad * (Math.PI / 180) : degOrRad;
@@ -217,8 +235,8 @@ do {
       break;
     case 10:
       while (true) {
-        let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):");
-        let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)");
+        let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):", true);
+        let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)", false);
         let calculation = Math.log(num2) / Math.log(num1);
         let calculationAsText = `log${num1}(${num2}) = ${calculation}`;
         storeCalculation(calculation, calculationAsText);
@@ -229,7 +247,7 @@ do {
       break;
     case 11:
       while (true) {
-        let num = promptToNumber("Ange anlatet värden som ska ingå i fibonacci sekvensen (ex. 5, 7, 30...)");
+        let num = promptToNumber("Ange anlatet värden som ska ingå i fibonacci sekvensen (ex. 5, 7, 30...)", true);
         let fib;
         let calculationAsText;
         if (num <= 1) {
@@ -271,10 +289,21 @@ do {
         const calculation = calculations[i];
         calculationsAsText += `${i + 1}. ${calculation.calculationAsText} ${i < calculations.length - 1 ? "\n" : ""}`;
       }
-      if (prompt(`${calculationsAsText}\n\nOm du vill avsluta programmet skriv (ja) annars tryck ok för att komma tillbaka till menyn`).trim().toLowerCase() === "ja" ? true : false) {
+      console.log("skdsdjsdjsdjksdjk");
+      let promptValue = prompt(`${calculationsAsText}\n\nOm du vill avsluta programmet skriv (ja) annars tryck ok för att komma tillbaka till menyn`).trim().toLowerCase();
+      if (promptValue === "ja") {
         menuChoice = 14;
-      } else {
         break;
+      }
+      if (!isNaN(Number(promptValue))) {
+        if (useStoredCalc === null) {
+          if (Number(promptValue - 1) >= 0 && Number(promptValue - 1) < calculations.length) {
+            useStoredCalc = calculations[promptValue - 1].calculation;
+            alert(`Du har valt att använda ${useStoredCalc} som grund värde istället för att ange ett tal när du utför beräkningar`);
+          }
+        } else {
+          useStoredCalc = null;
+        }
       }
       break;
   }
