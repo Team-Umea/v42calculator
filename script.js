@@ -289,7 +289,6 @@ do {
         const calculation = calculations[i];
         calculationsAsText += `${i + 1}. ${calculation.calculationAsText} ${i < calculations.length - 1 ? "\n" : ""}`;
       }
-      console.log("skdsdjsdjsdjksdjk");
       let promptValue = prompt(`${calculationsAsText}\n\nOm du vill avsluta programmet skriv (ja) annars tryck ok för att komma tillbaka till menyn`).trim().toLowerCase();
       if (promptValue === "ja") {
         menuChoice = 14;
