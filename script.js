@@ -192,6 +192,9 @@ do {
   }
 } while (menuChoice !== 11);
 
+alert("Programmet avslutat");
+console.log("Programmet avslutat");
+
 //error hantering av input, tar bort blank space
 function isValidInput(input) {
   input = input.trim().toLowerCase();
@@ -220,6 +223,8 @@ function promptToNumberNoZero(promptMessage) {
   } while (isNaN(parseFloat(input)) || parseFloat(input) === 0);
   return input;
 }
+
+//här börjar funktioner som används för att beräkna trigonometri
 
 function promptToTrigonometric() {
   let trigFunction;
