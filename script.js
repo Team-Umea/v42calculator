@@ -3,6 +3,7 @@
 
 // let menu;
 let menuChoice;
+let storedNum;
 let history = [];
 
 //Addition
@@ -33,21 +34,16 @@ let menuMessage = menuText;
 let wrongChoice = false;
 
 do {
-  // do {
-
-  wrongChoice ? (menuMessage = `Du matade in ett ogilgit nummer försök igen\n${menuText}`) : (menuMessage = menuText);
-
+  wrongChoice ? (menuMessage = `Du matade in ett ogiltigt nummer försök igen\n${menuText}`) : (menuMessage = menuText);
   wrongChoice = false;
-
   menuChoice = Number(promptToNumber(menuMessage));
-  // } while (menuChoice < 1 || menuChoice > 11);
 
   let calc = true;
   switch (menuChoice) {
     case 1: //addition
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill addera:");
-        let num2 = promptToNumber(`Du har angett ${num1} + välj ett tal att addera till uträkning :`);
+        let num1 = promptToNumber("Ange det första talet du vill addera:", true);
+        let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att addera till uträkning :`);
         let sum = num1 + num2;
         let continuePrompt = prompt(`Summan av ${num1} + ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
 
@@ -57,7 +53,7 @@ do {
       break; //Avsluta case 1
     case 2: //subtraktion
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill subtrahera:");
+        let num1 = promptToNumber("Ange det första talet du vill subtrahera:", true);
         let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att subtrahera med uträkning :`);
         let sum = num1 - num2;
         let continuePrompt = prompt(`Differensen av ${num1} - ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -72,7 +68,7 @@ do {
 
     case 3: //multiplikation
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill multiplicera:");
+        let num1 = promptToNumber("Ange det första talet du vill multiplicera:", true);
         let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att multiplicera med:`);
         let sum = num1 * num2;
         let continuePrompt = prompt(`Produkten av ${num1} * ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -87,7 +83,7 @@ do {
 
     case 4: //division
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill dividera:");
+        let num1 = promptToNumber("Ange det första talet du vill dividera:", true);
         let num2 = promptToNumberNoZero(`Du har angett ${num1} - välj ett tal att dividera med, OBS! går ej att dividera med noll:`);
         let sum = num1 / num2;
         let continuePrompt = prompt(`Kvoten av ${num1} / ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -101,7 +97,7 @@ do {
       break;
     case 5: //exponentiering
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill exponentiera:");
+        let num1 = promptToNumber("Ange det första talet du vill exponentiera:", true);
         let num2 = promptToNumber(`Du har angett ${num1} - välj ett tal att exponentiera med:`);
         let sum = num1 ** num2;
         let continuePrompt = prompt(`Resultatet av ${num1} ^ ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -117,7 +113,7 @@ do {
 
     case 6: //modulus
       while (calc) {
-        let num1 = promptToNumber("Ange det första talet du vill använda modulus på:");
+        let num1 = promptToNumber("Ange det första talet du vill använda modulus på:", true);
         let num2 = promptToNumberNoZero(`Du har angett ${num1} - välj ett tal att använda modulus med, OBS! går ej att använda modulus med noll:`);
         let sum = num1 % num2;
         let continuePrompt = prompt(`Resttalet av ${num1} % ${num2} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -131,7 +127,7 @@ do {
       break;
     case 7: //Roten ur
       while (calc) {
-        let num1 = promptToNumber("Ange vilket tal du vill ta roten ur på:");
+        let num1 = promptToNumber("Ange vilket tal du vill ta roten ur på:", true);
         let num2 = promptToNumber("Ange vilken grad av rot du vill använda (ex. 2, 3, 4...)");
         let sum = num1 ** (1 / num2); //num1*(1/num2)  (num1**1/2) ((num**2)*1/2) ??? ROTEN UR!! Math.pow(num1,1/num2)
         let continuePrompt = prompt(`Resultatet av ${num2} √ ${num1} = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -144,7 +140,7 @@ do {
       break;
     case 8: //logarithmer
       while (calc) {
-        let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):");
+        let num1 = promptToNumber("Ange basen för logaritmerisk beräkning (t.ex. 3):", true);
         let num2 = promptToNumber("Ange värdet som ska logaritmeras (t.ex. 9)");
         let sum = Math.log(num2) / Math.log(num1);
         let continuePrompt = prompt(`log${num1}(${num2}) = ${sum}\n\n Om du vill gå tillbaka till menyn skriv 'ja' annars tryck enter eller ok?`);
@@ -188,19 +184,18 @@ do {
       for (let i = 0; i < history.length; i++) {
         arrAsText += `${i + 1}: ${history[i]}\n`;
       }
-      let continuePrompt = prompt("Här är dina uträkningar mata in korresponderande siffra för att använda den i en annan uträkning, alternativt skriv 'ja' för att gå tillbaka till huvudmenyn\n\n" + arrAsText);
-      if (continuePrompt === "ja") {
+      let inputFromHistoryMenu = prompt("Här är dina uträkningar mata in korresponderande siffra för att använda den i en annan uträkning, alternativt skriv 'ja' för att gå tillbaka till huvudmenyn\n\n" + arrAsText);
+      if (inputFromHistoryMenu === "ja") {
         break;
-      } else if (isNaN(continuePrompt) && 0 < continuePrompt < history.length + 1) {
-        storedNum = arrAsText.slice(0, arrAsText.lastIndexOf("=")).trim();
+      } else if (!isNaN(Number(inputFromHistoryMenu)) && Number(inputFromHistoryMenu - 1) >= 0 && Number(inputFromHistoryMenu - 1) < history.length) {
+        storedNum = history[inputFromHistoryMenu - 1].slice(history[inputFromHistoryMenu - 1].lastIndexOf("=") + 1).trim();
+        alert(`Ditt sparade nummer är ${storedNum}`);
       }
       break;
 
     default: //fel inmatning, be användaren MATA OM
-      // console.log()
       wrongChoice = true;
-      menuMessage = `Du matade in ett ogilgit nummer försök\n${menuText}`;
-      // alert("Felinmatning");
+      menuMessage = `Du matade in ett ogiltigt nummer försök\n${menuText}`;
       break;
   }
 } while (menuChoice !== 11);
@@ -218,7 +213,7 @@ function promptToNumber(promptMessage, isNum1) {
   let input;
 
   if (isNum1 && storedNum !== undefined) {
-    alert(`num1 är ${storedNum}`);
+    alert(`Du har hämtat ${storedNum} från historiken och det kommer att användas som det första talet`);
     input = parseFloat(storedNum);
     storedNum = undefined;
   } else {
