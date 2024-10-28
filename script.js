@@ -28,10 +28,19 @@ const menuText = `Välj en uträkningsmetod nedan (1-11)\n
     10. Historik, visa historik av tidigare uträkningar
     11. Avsluta för att avsluta programmet`;
 
+let menuMessage = menuText;
+
+let wrongChoice = false;
+
 do {
-  do {
-    menuChoice = Number(promptToNumber(menuText));
-  } while (menuChoice < 1 || menuChoice > 11);
+  // do {
+
+  wrongChoice ? (menuMessage = `Du matade in ett ogilgit nummer försök igen\n${menuText}`) : (menuMessage = menuText);
+
+  wrongChoice = false;
+
+  menuChoice = Number(promptToNumber(menuMessage));
+  // } while (menuChoice < 1 || menuChoice > 11);
 
   let calc = true;
   switch (menuChoice) {
@@ -188,6 +197,10 @@ do {
       break;
 
     default: //fel inmatning, be användaren MATA OM
+      // console.log()
+      wrongChoice = true;
+      menuMessage = `Du matade in ett ogilgit nummer försök\n${menuText}`;
+      // alert("Felinmatning");
       break;
   }
 } while (menuChoice !== 11);
